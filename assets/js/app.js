@@ -125,3 +125,20 @@ btnEdit.addEventListener("click", async function () {
   this.style.display = "none";
   alert("Todo Was Edited");
 });
+
+// return and delete tododone
+ulTodoDone.addEventListener("click", async (e) => {
+  let clickElement = e.target;
+  let idTodo;
+  if (clickElement.classList.contains("bx-revision")) {
+    idTodo = clickElement.dataset.return;
+    await sendTask("tododone", "todo", idTodo);
+    await deleteTask("tododone", idTodo);
+  }
+  if (clickElement.classList.contains("bxs-trash-alt")) {
+    if (confirm("Are You Sure?")) {
+      idTodo = clickElement.dataset.trash;
+      await deleteTask("tododone", idTodo);
+    }
+  }
+});
