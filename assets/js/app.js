@@ -1,8 +1,8 @@
 // select DOMelements
 const inputUser = document.querySelector("#userInput");
 const btnSubmit = document.querySelector("#submit");
-const ulToDoList = document.querySelector(".boxToDo");
-const ulToDoDone = document.querySelector("#toDoDone");
+const ulTodoList = document.querySelector(".boxToDo");
+const ulTodoDone = document.querySelector("#toDoDone");
 const buttonElements = document.querySelector(".wrapperButtom");
 const btnEdit = document.querySelector("#edit");
 const url = "http://localhost:3000/";
@@ -43,8 +43,8 @@ const getTasks = async (arrayApi, ul) => {
     divItem.append(divElement);
   }
 };
-getTasks("todo", ulToDoList);
-getTasks("tododone", ulToDoDone);
+getTasks("todo", ulTodoList);
+getTasks("tododone", ulTodoDone);
 
 //@@@@@@@@@@@ TODOLIST @@@@@@@@@@@//
 
@@ -53,7 +53,7 @@ btnSubmit.addEventListener("click", async (e) => {
   e.preventDefault();
   let inputValue = inputUser.value.trim();
   if (inputValue === "") {
-    alert("PLEASE ENTER TODO");
+    alert("Please Enter Todo");
   } else {
     await postTasks(inputValue, "todo");
     inputUser.value = "";
@@ -86,21 +86,35 @@ const getToDo = async (id) => {
   inputUser.value = task.todo;
 };
 
-ulToDoList.addEventListener("click", async (e) => {
+//Sending task
+const sendTask = async (arrayApi1, arrayApi2, id) => {
+  const res = await fetch(url + `${arrayApi1}/${id}`);
+  const task = await res.json();
+  let toDo = task.todo;
+  postTasks(toDo, `${arrayApi2}`);
+};
+
+// submit delete and edit and done todo
+ulTodoList.addEventListener("click", async (e) => {
   let clickElement = e.target;
-  let idToDo;
+  let idTodo;
   if (clickElement.classList.contains("bxs-trash-alt")) {
     if (confirm("Are You Sure?")) {
-      idToDo = clickElement.dataset.delete;
-      await deleteTask("todo", idToDo);
+      idTodo = clickElement.dataset.delete;
+      await deleteTask("todo", idTodo);
     }
   }
   if (clickElement.classList.contains("bx-edit")) {
     buttonElements.style.gridTemplateColumns = "repeat(2, 1fr)";
     btnEdit.style.display = "block";
-    idToDo = clickElement.dataset.edit;
-    await getToDo(idToDo);
-    btnEdit.setAttribute("data-id", idToDo);
+    idTodo = clickElement.dataset.edit;
+    await getToDo(idTodo);
+    btnEdit.setAttribute("data-id", idTodo);
+  }
+  if (clickElement.classList.contains("bx-check-double")) {
+    idTodo = clickElement.dataset.done;
+    await sendTask("todo", "tododone", idTodo);
+    await deleteTask("todo", idTodo);
   }
 });
 
@@ -109,4 +123,5 @@ btnEdit.addEventListener("click", async function () {
   const id = this.dataset.id;
   await editToDo(id);
   this.style.display = "none";
+  alert("Todo Was Edited");
 });
