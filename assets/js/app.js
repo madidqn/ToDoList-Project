@@ -72,6 +72,13 @@ const editToDo = async (id) => {
   });
 };
 
+//delete task
+const deleteTask = async (arrayApi, id) => {
+  await fetch(url + `${arrayApi}/${id}`, {
+    method: "DELETE",
+  });
+};
+
 // get single todo
 const getToDo = async (id) => {
   const res = await fetch(url + `todo/${id}`);
@@ -82,6 +89,12 @@ const getToDo = async (id) => {
 ulToDoList.addEventListener("click", async (e) => {
   let clickElement = e.target;
   let idToDo;
+  if (clickElement.classList.contains("bxs-trash-alt")) {
+    if (confirm("Are You Sure?")) {
+      idToDo = clickElement.dataset.delete;
+      await deleteTask("todo", idToDo);
+    }
+  }
   if (clickElement.classList.contains("bx-edit")) {
     buttonElements.style.gridTemplateColumns = "repeat(2, 1fr)";
     btnEdit.style.display = "block";
