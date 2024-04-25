@@ -1,8 +1,8 @@
 // select DOMelements
-const inputUser = document.querySelector("#userInput");
+const inputUser = document.querySelector("#inputUser");
 const btnSubmit = document.querySelector("#submit");
-const ulTodoList = document.querySelector(".boxToDo");
-const ulTodoDone = document.querySelector("#toDoDone");
+const ulTodoList = document.querySelector("#tasks");
+const ulTodoDone = document.querySelector("#todoDone");
 const buttonElements = document.querySelector(".wrapperButtom");
 const btnEdit = document.querySelector("#edit");
 const url = "http://localhost:3000/";
@@ -26,10 +26,11 @@ const getTasks = async (arrayApi, ul) => {
   const todos = await response.json();
   for (let todo of todos) {
     let divItem = document.createElement("div");
-    divItem.classList.add("toDoItem");
+    divItem.classList.add("todoItem");
     ul.append(divItem);
+    ul.style.overflowY = "scroll";
     let liElement = document.createElement("li");
-    liElement.classList.add("toDo");
+    liElement.classList.add("todo");
     liElement.innerHTML = todo.todo;
     divItem.append(liElement);
     let divElement = document.createElement("div");
