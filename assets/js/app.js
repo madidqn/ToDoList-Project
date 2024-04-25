@@ -59,3 +59,41 @@ btnSubmit.addEventListener("click", async (e) => {
     inputUser.value = "";
   }
 });
+
+// edit todo from backend
+const editToDo = async (id) => {
+  let task = inputUser.value;
+  await fetch(url + `todo/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify({ todo: task }),
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+};
+
+// get single todo
+const getToDo = async (id) => {
+  const res = await fetch(url + `todo/${id}`);
+  const task = await res.json();
+  inputUser.value = task.todo;
+};
+
+ulToDoList.addEventListener("click", async (e) => {
+  let clickElement = e.target;
+  let idToDo;
+  if (clickElement.classList.contains("bx-edit")) {
+    buttonElements.style.gridTemplateColumns = "repeat(2, 1fr)";
+    btnEdit.style.display = "block";
+    idToDo = clickElement.dataset.edit;
+    await getToDo(idToDo);
+    btnEdit.setAttribute("data-id", idToDo);
+  }
+});
+
+// submit edit todo
+btnEdit.addEventListener("click", async function () {
+  const id = this.dataset.id;
+  await editToDo(id);
+  this.style.display = "none";
+});
