@@ -47,7 +47,8 @@ body {
   padding: 15px;
   border-radius: 20px;
   animation: animate 2s infinite linear;
-  min-height: 250px;
+  height: 350px;
+  /* overflow-y: scroll; */
 }
 .title {
   text-align: center;
@@ -87,6 +88,38 @@ body {
 }
 .btnSubmit:hover,
 .btnEdit:hover {
-  background-color: orange;
+  background-color: red;
+  color: black;
+}
+.toDoItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: darkgray;
+  border-radius: 20px;
+  padding: 5px;
+}
+.toDo {
+  padding: 13px 0;
+  width: 80%;
+  font-size: 17px;
+}
+.boxIcon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  widows: 20%;
+}
+.boxIcon i {
+  font-size: 26px;
+  margin: 0 4px;
+  padding: 6px;
+  background-color: darkblue;
+  color: aliceblue;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.boxIcon i:hover {
+  background-color: red;
   color: black;
 }
